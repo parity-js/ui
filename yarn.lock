@@ -110,7 +110,7 @@
   dependencies:
     "@parity/ledger" "^2.1.2"
 
-"@parity/shared@2.2.24":
+"@parity/shared@2.2.x":
   version "2.2.24"
   resolved "https://registry.yarnpkg.com/@parity/shared/-/shared-2.2.24.tgz#11bc09bbc3088f20c71004f623fa6dce21012e99"
   dependencies:
