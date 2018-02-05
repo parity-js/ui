@@ -25,40 +25,20 @@ import Name from './Name';
 
 import styles from './account.css';
 
-export default function Account ({ accounts, address, balance, className, isDisabled, externalLink, netVersion }) {
+export default function Account ({ address, className, isDisabled }) {
   return (
     <div className={`${styles.account} ${className}`}>
-      <AccountLink
-        accounts={accounts}
-        address={address}
-        externalLink={externalLink}
-        netVersion={netVersion}
-      >
-        <IdentityIcon
-          center
-          disabled={isDisabled}
-          address={address}
-        />
+      <AccountLink address={address}>
+        <IdentityIcon center disabled={isDisabled} address={address} />
       </AccountLink>
-      <Name
-        accounts={accounts}
-        address={address}
-        externalLink={externalLink}
-        netVersion={netVersion}
-      />
-      <Balance
-        value={balance}
-      />
+      <Name address={address} />
+      <Balance address={address} />
     </div>
   );
 }
 
 Account.propTypes = {
-  accounts: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
   className: PropTypes.string,
-  externalLink: PropTypes.string.isRequired,
-  isDisabled: PropTypes.bool,
-  netVersion: PropTypes.string.isRequired,
-  balance: PropTypes.object
+  isDisabled: PropTypes.bool
 };

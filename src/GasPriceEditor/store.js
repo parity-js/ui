@@ -26,6 +26,8 @@ const CONDITIONS = {
   TIME: 'timestamp'
 };
 
+let instance;
+
 export default class GasPriceEditor {
   @observable blockNumber = 0;
   @observable condition = {};
@@ -44,11 +46,10 @@ export default class GasPriceEditor {
   @observable priceDefault;
   @observable weiValue = '0';
 
-  constructor (api, { gas, gasLimit, gasPrice, condition = null }) {
+  constructor (api, { gas, gasPrice, condition = null }) {
     this._api = api;
 
     this.gas = gas;
-    this.gasLimit = gasLimit;
     this.price = gasPrice;
 
     if (condition) {
@@ -66,7 +67,8 @@ export default class GasPriceEditor {
     }
   }
 
-  @computed get totalValue () {
+  @computed
+  get totalValue () {
     try {
       return new BigNumber(this.gas).mul(this.price).add(this.weiValue);
     } catch (error) {
@@ -74,7 +76,8 @@ export default class GasPriceEditor {
     }
   }
 
-  @computed get conditionValue () {
+  @computed
+  get conditionValue () {
     switch (this.conditionType) {
       case CONDITIONS.BLOCK:
         return { block: new BigNumber(this.condition.block || 0) };
@@ -84,7 +87,8 @@ export default class GasPriceEditor {
     }
   }
 
-  @action setConditionType = (conditionType = CONDITIONS.NONE) => {
+  @action
+  setConditionType = (conditionType = CONDITIONS.NONE) => {
     transaction(() => {
       this.conditionBlockError = null;
       this.conditionType = conditionType;
@@ -104,41 +108,48 @@ export default class GasPriceEditor {
           break;
       }
     });
-  }
+  };
 
-  @action setConditionBlockNumber = (block) => {
+  @action
+  setConditionBlockNumber = block => {
     transaction(() => {
       this.conditionBlockError = validatePositiveNumber(block).numberError;
       this.condition = Object.assign({}, this.condition, { block });
     });
-  }
+  };
 
-  @action setConditionDateTime = (_time) => {
+  @action
+  setConditionDateTime = _time => {
     const time = new Date(_time);
 
     time.setMilliseconds(0); // ignored by/not passed to Parity
     time.setSeconds(0); // current time selector doesn't allow seconds
 
     this.condition = Object.assign({}, this.condition, { time });
-  }
+  };
 
-  @action setEditing = (isEditing) => {
+  @action
+  setEditing = isEditing => {
     this.isEditing = isEditing;
-  }
+  };
 
-  @action toggleEditing = () => {
+  @action
+  toggleEditing = () => {
     this.isEditing = !this.isEditing;
-  }
+  };
 
-  @action setErrorTotal = (errorTotal) => {
+  @action
+  setErrorTotal = errorTotal => {
     this.errorTotal = errorTotal;
-  }
+  };
 
-  @action setEstimatedError = (errorEstimated = ERRORS.gasException) => {
+  @action
+  setEstimatedError = (errorEstimated = ERRORS.gasException) => {
     this.errorEstimated = errorEstimated;
-  }
+  };
 
-  @action setEstimated = (estimated) => {
+  @action
+  setEstimated = estimated => {
     transaction(() => {
       const bn = new BigNumber(estimated);
 
@@ -152,13 +163,15 @@ export default class GasPriceEditor {
         this.setEstimatedError(null);
       }
     });
-  }
+  };
 
-  @action setEthValue = (weiValue) => {
+  @action
+  setEthValue = weiValue => {
     this.weiValue = weiValue;
-  }
+  };
 
-  @action setGas = (gas) => {
+  @action
+  setGas = gas => {
     transaction(() => {
       const { numberError } = validatePositiveNumber(gas);
 
@@ -168,7 +181,6 @@ export default class GasPriceEditor {
         this.errorGas = numberError;
       } else {
         const bn = new BigNumber(gas);
-
         if (bn.gte(this.gasLimit)) {
           this.errorGas = ERRORS.gasBlockLimit;
         } else {
@@ -176,36 +188,40 @@ export default class GasPriceEditor {
         }
       }
     });
-  }
+  };
 
-  @action setGasLimit = (gasLimit) => {
+  @action
+  setGasLimit = gasLimit => {
     this.gasLimit = gasLimit;
-  }
+  };
 
-  @action setHistogram = (gasHistogram) => {
+  @action
+  setHistogram = gasHistogram => {
     this.histogram = gasHistogram;
-  }
+  };
 
-  @action setPrice = (price) => {
+  @action
+  setPrice = price => {
     transaction(() => {
       this.errorPrice = validatePositiveNumber(price).numberError;
       this.price = price;
     });
-  }
+  };
 
-  @action loadDefaults () {
-    Promise
-      .all([
-        // NOTE fetching histogram may fail if there is not enough data.
-        // We fallback to empty histogram.
-        this._api.parity.gasPriceHistogram().catch(() => ({
-          bucketBounds: [],
-          counts: []
-        })),
-        this._api.eth.gasPrice(),
-        this._api.eth.blockNumber()
-      ])
-      .then(([histogram, _price, blockNumber]) => {
+  @action
+  loadDefaults () {
+    Promise.all([
+      // NOTE fetching histogram may fail if there is not enough data.
+      // We fallback to empty histogram.
+      this._api.parity.gasPriceHistogram().catch(() => ({
+        bucketBounds: [],
+        counts: []
+      })),
+      this._api.eth.gasPrice(),
+      this._api.eth.blockNumber(),
+      this._api.eth.getBlockByNumber('latest', true)
+    ])
+      .then(([histogram, _price, blockNumber, latestBlock]) => {
         transaction(() => {
           const price = _price.toFixed(0);
 
@@ -216,14 +232,16 @@ export default class GasPriceEditor {
 
           this.priceDefault = price;
           this.blockNumber = blockNumber.toNumber();
+
+          this.gasLimit = latestBlock.gasLimit;
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.warn('getDefaults', error);
       });
   }
 
-  overrideTransaction = (transaction) => {
+  overrideTransaction = transaction => {
     if (this.errorGas || this.errorPrice || this.conditionBlockError) {
       return transaction;
     }
@@ -249,9 +267,15 @@ export default class GasPriceEditor {
     }
 
     return result;
+  };
+
+  static get (api, transaction) {
+    if (!instance) {
+      instance = new GasPriceEditor(api, transaction);
+    }
+
+    return instance;
   }
 }
 
-export {
-  CONDITIONS
-};
+export { CONDITIONS };

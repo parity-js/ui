@@ -14,20 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
+import stores from '@parity/mobx';
 
-export default function Balance ({ className, value }) {
-  const formatted = value
-    ? value.div(1e18).toFormat(3)
-    : '?';
+@observer
+class Balance extends Component {
+  static contextTypes = {
+    api: PropTypes.object.isRequired
+  };
 
-  return (
-    <span className={className}> <strong>{ formatted }</strong> <small>ETH</small></span>
-  );
+  static propTypes = {
+    className: PropTypes.string,
+    address: PropTypes.string.isRequired
+  };
+
+  balanceStore = stores.eth.getBalance(this.props.address).get(this.context.api);
+
+  render () {
+    const { className } = this.props;
+    const formatted = this.balanceStore.getBalance ? this.balanceStore.getBalance.div(1e18).toFormat(3) : '?';
+
+    return (
+      <span className={className}>
+        {' '}
+        <strong>{formatted}</strong> <small>ETH</small>
+      </span>
+    );
+  }
 }
 
-Balance.propTypes = {
-  className: PropTypes.string,
-  value: PropTypes.object
-};
+export default Balance;

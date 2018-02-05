@@ -17,78 +17,35 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import ConfirmReject from '../ConfirmReject';
-import ConfirmRejectToggle from '../ConfirmRejectToggle';
-import Layout from '../Layout';
+import ConfirmReject from './ConfirmReject';
+import ConfirmRejectToggle from './ConfirmRejectToggle';
+import { requestShape } from '../util/react';
 
 export default class ConfirmForm extends Component {
   static propTypes = {
-    account: PropTypes.object,
-    address: PropTypes.string.isRequired,
+    children: PropTypes.node.isRequired,
     className: PropTypes.string,
-    confirmElement: PropTypes.oneOfType([
-      PropTypes.element,
-      PropTypes.func
-    ]).isRequired,
-    id: PropTypes.object.isRequired,
-    isDisabled: PropTypes.bool,
-    isFocussed: PropTypes.bool,
-    isSending: PropTypes.bool.isRequired,
-    netVersion: PropTypes.string.isRequired,
-    onConfirm: PropTypes.func.isRequired,
-    onReject: PropTypes.func.isRequired,
-    dataToSign: PropTypes.oneOfType([
-      PropTypes.shape({
-        transaction: PropTypes.object.isRequired
-      }),
-      PropTypes.shape({
-        data: PropTypes.string.isRequired
-      }),
-      PropTypes.shape({
-        decrypt: PropTypes.string.isRequired
-      })
-    ]).isRequired
+    request: requestShape.isRequired
   };
 
   state = {
     isRejectOpen: false
   };
 
-  render () {
-    const { account, address, className, confirmElement, id, isDisabled, isFocussed, isSending, netVersion, onConfirm, onReject, dataToSign } = this.props;
-    const { isRejectOpen } = this.state;
-    const ConfirmVia = confirmElement;
-
-    return (
-      <Layout.Side className={className}>
-        {
-          isRejectOpen
-            ? <ConfirmReject onReject={onReject} />
-            : (
-              <ConfirmVia
-                address={address}
-                account={account}
-                id={id}
-                isDisabled={isDisabled}
-                isFocussed={isFocussed}
-                isSending={isSending}
-                netVersion={netVersion}
-                onConfirm={onConfirm}
-                dataToSign={dataToSign}
-              />
-            )
-        }
-        <ConfirmRejectToggle
-          isRejectOpen={isRejectOpen}
-          onToggle={this.onToggleReject}
-        />
-      </Layout.Side>
-    );
-  }
-
-  onToggleReject = () => {
+  handleToggle = () =>
     this.setState({
       isRejectOpen: !this.state.isRejectOpen
     });
+
+  render () {
+    const { children, className, request } = this.props;
+    const { isRejectOpen } = this.state;
+
+    return (
+      <div className={className}>
+        {isRejectOpen ? <ConfirmReject request={request} /> : children}
+        <ConfirmRejectToggle isRejectOpen={isRejectOpen} onToggle={this.handleToggle} />
+      </div>
+    );
   }
 }

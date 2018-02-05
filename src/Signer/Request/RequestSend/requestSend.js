@@ -23,7 +23,7 @@ import { Popup } from 'semantic-ui-react';
 import Button from '../../../Button';
 import { GasIcon } from '../../../Icons';
 import GasPriceEditor from '../../../GasPriceEditor';
-// import MethodDecoding from '../../../MethodDecoding'
+import MethodDecoding from '../../../MethodDecoding';
 import Layout from '../../Layout';
 import { transactionShape } from '../../util/react';
 
@@ -36,6 +36,7 @@ export default class RequestSend extends Component {
   };
 
   static propTypes = {
+    address: PropTypes.string.isRequired,
     className: PropTypes.string,
     transaction: transactionShape.isRequired
   };
@@ -43,17 +44,15 @@ export default class RequestSend extends Component {
   gasStore = GasPriceEditor.Store.get(this.context.api, this.props.transaction);
 
   render () {
+    const { address } = this.props;
     return (
       <div className={styles.method}>
-        {/* <MethodDecoding
-          address={from}
+        <MethodDecoding
+          address={address}
           historic={false}
-          transaction={gasStore ? gasStore.overrideTransaction(transaction) : transaction}
-        /> */}
-        <p>
-          MethodDecoding will go here, transaction is{' '}
-          {JSON.stringify(this.gasStore.overrideTransaction(this.props.transaction))}
-        </p>
+          transaction={this.gasStore.overrideTransaction(this.props.transaction)}
+        />
+
         <div className={styles.editButtonRow}>
           <Popup
             content={this.renderTxEditor()}

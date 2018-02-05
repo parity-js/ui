@@ -24,7 +24,7 @@ import styles from './confirmRejectToggle.css';
 
 export default function ConfirmRejectToggle ({ className, isRejectOpen, onToggle }) {
   return (
-    <a className={`${styles.rejectToggle} ${className}`} onClick={onToggle}>
+    <span className={`${styles.rejectToggle} ${className}`} onClick={onToggle}>
       {isRejectOpen ? (
         <span>
           <PrevIcon />
@@ -33,7 +33,7 @@ export default function ConfirmRejectToggle ({ className, isRejectOpen, onToggle
       ) : (
         <FormattedMessage id='signer.txPendingForm.reject' defaultMessage='reject request' />
       )}
-    </a>
+    </span>
   );
 }
 

@@ -15,7 +15,31 @@
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
 import { isValidElement } from 'react';
+import PropTypes from 'prop-types';
 
 export function isReactComponent (componentOrElem) {
   return isValidElement(componentOrElem) && typeof componentOrElem.type === 'function';
 }
+
+export const transactionShape = PropTypes.shape({
+  condition: PropTypes.object,
+  data: PropTypes.string,
+  from: PropTypes.string.isRequired,
+  gas: PropTypes.object.isRequired,
+  gasPrice: PropTypes.object.isRequired,
+  to: PropTypes.string,
+  value: PropTypes.object.isRequired
+});
+
+export const requestShape = PropTypes.shape({
+  date: PropTypes.instanceOf(Date),
+  id: PropTypes.object.isRequired,
+  isSending: PropTypes.bool,
+  origin: PropTypes.object.isRequired,
+  payload: PropTypes.oneOfType([
+    PropTypes.shape({ decrypt: PropTypes.object.isRequired }),
+    PropTypes.shape({ sendTransaction: transactionShape.isRequired }),
+    PropTypes.shape({ sign: PropTypes.object.isRequired }),
+    PropTypes.shape({ signTransaction: transactionShape.isRequired })
+  ]).isRequired
+});

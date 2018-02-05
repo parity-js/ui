@@ -91,7 +91,7 @@
     qs "^6.5.0"
     whatwg-fetch "^2.0.3"
 
-"@parity/jsonrpc@2.1.x":
+"@parity/jsonrpc@2.1.x", "@parity/jsonrpc@^2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@parity/jsonrpc/-/jsonrpc-2.1.5.tgz#9d2bedff6e90859dcc56f83c8a31042c4dd44849"
 
@@ -104,13 +104,15 @@
     u2f-api "0.0.9"
     u2f-api-polyfill "0.4.3"
 
-"@parity/mobx@1.0.x":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@parity/mobx/-/mobx-1.0.7.tgz#b7e047abed426fef940ca81297b0c47bc71a49ad"
+"@parity/mobx@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@parity/mobx/-/mobx-1.1.1.tgz#86a368ac4ebb482ae06946fee21d0c798b419951"
   dependencies:
+    "@parity/jsonrpc" "^2.1.5"
     "@parity/ledger" "^2.1.2"
+    "@parity/shared" "^2.2.23"
 
-"@parity/shared@2.2.x":
+"@parity/shared@2.2.x", "@parity/shared@^2.2.23":
   version "2.2.24"
   resolved "https://registry.yarnpkg.com/@parity/shared/-/shared-2.2.24.tgz#11bc09bbc3088f20c71004f623fa6dce21012e99"
   dependencies:

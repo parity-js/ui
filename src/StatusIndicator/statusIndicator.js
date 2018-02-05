@@ -14,86 +14,65 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 import { observer } from 'mobx-react';
-import NodeHealthStore, { STATUS_BAD, STATUS_OK, STATUS_WARN } from '@parity/mobx/lib/node/NodeHealthStore';
+import stores from '@parity/mobx';
+import { STATUS_BAD, STATUS_OK, STATUS_WARN } from '@parity/mobx/lib/parity/nodeHealth';
 
 import styles from './statusIndicator.css';
 
 const statuses = [STATUS_BAD, STATUS_WARN, STATUS_OK];
 
-function StatusIndicator ({ className, id, status, title = [], tooltipPlacement, type = 'signal' }, { api }) {
-  const store = NodeHealthStore.get(api);
-  const checkStatus = status || store.overall.status;
-  const message = title.length
-    ? title
-    : store.overall.message;
+@observer
+class StatusIndicator extends Component {
+  static contextTypes = {
+    api: PropTypes.object.isRequired
+  };
 
-  return (
-    <span className={[styles.status, className].join(' ')}>
-      <span
-        className={`${styles[type]} ${styles[checkStatus]}`}
-        data-tip={message.length}
-        data-for={`status-${id}`}
-        data-place={tooltipPlacement}
-        data-effect='solid'
-      >
-        {
-          type === 'signal'
-            ? statuses.map((signal) => {
+  static propTypes = {
+    className: PropTypes.string,
+    id: PropTypes.string.isRequired,
+    status: PropTypes.oneOf(statuses),
+    title: PropTypes.arrayOf(PropTypes.node),
+    tooltipPlacement: PropTypes.oneOf(['left', 'top', 'bottom', 'right']),
+    type: PropTypes.oneOf(['radial', 'signal'])
+  };
+
+  nodeHealthStore = stores.parity.nodeHealth().get(this.context.api);
+
+  render () {
+    const { className, id, status, title = [], tooltipPlacement, type = 'signal' } = this.props;
+    const checkStatus = status || this.nodeHealthStore.overall.status;
+    const message = title.length ? title : this.nodeHealthStore.overall.message;
+
+    return (
+      <span className={[styles.status, className].join(' ')}>
+        <span
+          className={`${styles[type]} ${styles[checkStatus]}`}
+          data-tip={message.length}
+          data-for={`status-${id}`}
+          data-place={tooltipPlacement}
+          data-effect='solid'
+        >
+          {type === 'signal'
+            ? statuses.map(signal => {
               const index = statuses.indexOf(checkStatus);
               const isActive = statuses.indexOf(signal) <= index;
 
               return (
-                <span
-                  key={signal}
-                  className={`${styles.bar} ${styles[signal]} ${isActive ? styles.active : ''}`}
-                />
+                <span key={signal} className={`${styles.bar} ${styles[signal]} ${isActive ? styles.active : ''}`} />
               );
             })
-            : null
-        }
+            : null}
+        </span>
+        {message.find(x => !x.isEmpty) ? (
+          <ReactTooltip id={`status-${id}`}>{message.map(x => <div key={x}>{x}</div>)}</ReactTooltip>
+        ) : null}
       </span>
-      {
-        message.find((x) => !x.isEmpty)
-          ? (
-            <ReactTooltip id={`status-${id}`}>
-              {
-                message.map((x) => (
-                  <div key={x}>
-                    {x}
-                  </div>)
-                )
-              }
-            </ReactTooltip>
-          )
-          : null
-      }
-    </span>
-  );
+    );
+  }
 }
 
-StatusIndicator.propTypes = {
-  className: PropTypes.string,
-  id: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(statuses),
-  title: PropTypes.arrayOf(PropTypes.node),
-  tooltipPlacement: PropTypes.oneOf([
-    'left', 'top', 'bottom', 'right'
-  ]),
-  type: PropTypes.oneOf([
-    'radial', 'signal'
-  ])
-};
-
-StatusIndicator.contextTypes = {
-  api: PropTypes.object.isRequired
-};
-
-const ObserverComponent = observer(StatusIndicator);
-
-ObserverComponent.Store = NodeHealthStore;
-
-export default ObserverComponent;
+export default StatusIndicator;

@@ -19,7 +19,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
 import Button from '../../../Button';
-
+import { requestShape } from '../../util/react';
 import styles from './confirmReject.css';
 
 export default class ConfirmReject extends Component {
@@ -29,7 +29,7 @@ export default class ConfirmReject extends Component {
 
   static propTypes = {
     className: PropTypes.string,
-    request: PropTypes.object.isRequired
+    request: requestShape.isRequired
   };
 
   handleReject = () => this.context.api.signer.rejectRequest(this.props.request.id);
