@@ -104,7 +104,7 @@
     u2f-api "0.0.9"
     u2f-api-polyfill "0.4.3"
 
-"@parity/mobx@^1.1.1":
+"@parity/mobx@1.1.x":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@parity/mobx/-/mobx-1.1.1.tgz#86a368ac4ebb482ae06946fee21d0c798b419951"
   dependencies:
