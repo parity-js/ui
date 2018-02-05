@@ -14,49 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../../Button';
+import styles from '../RequestSign/requestSign.css';
 
-import styles from './confirmReject.css';
+@observer
+export default class RequestDecrypt extends Component {
+  static contextTypes = {
+    api: PropTypes.object
+  };
 
-export default class ConfirmReject extends Component {
   static propTypes = {
-    onReject: PropTypes.func.isRequired,
-    className: PropTypes.string
+    dataToSign: PropTypes.string.isRequired
   };
 
   render () {
-    const { className, onReject } = this.props;
+    const { api } = this.context;
+    const { dataToSign } = this.props;
 
     return (
-      <div className={className}>
-        <div className={styles.rejectText}>
+      <div className={styles.info} title={api.util.sha3(dataToSign)}>
+        <p>
           <FormattedMessage
-            id='signer.txPendingReject.info'
-            defaultMessage='Are you sure you want to reject the request?'
+            id='signer.decryptRequest.request'
+            defaultMessage='A request to decrypt data using your account:'
           />
-          <br />
-          <strong>
-            <FormattedMessage
-              id='signer.txPendingReject.undone'
-              defaultMessage='This cannot be undone'
-            />
-          </strong>
+        </p>
+
+        <div className={styles.signData}>
+          <p>{dataToSign}</p>
         </div>
-        <Button
-          onClick={onReject}
-          className={styles.rejectButton}
-          fullWidth
-          label={
-            <FormattedMessage
-              id='signer.txPendingReject.buttons.reject'
-              defaultMessage='Reject Request'
-            />
-          }
-        />
       </div>
     );
   }
