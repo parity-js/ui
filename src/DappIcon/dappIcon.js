@@ -66,8 +66,7 @@ class DappIcon extends Component {
         if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
 
         const dappHost = (process.env.DAPPS_URL || `${this.dappsUrlStore.fullUrl}/ui`).trimRight('/');
-        const fallbackSrc =
-          window.location.protocol === 'file:' ? `dapps/${app.id}/icon.png` : `${dappHost}/dapps/${app.id}/icon.png`;
+        const fallbackSrc = `${dappHost}/dapps/${app.id}/icon.png`;
 
         imageSrc = app.image ? `${dappHost}${app.image}` : fallbackSrc;
         break;
