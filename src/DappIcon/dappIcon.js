@@ -17,7 +17,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import DappsUrlStore from '@parity/mobx/lib/dapps/DappsUrlStore';
+import stores from '@parity/mobx';
 
 import styles from './dappIcon.css';
 
@@ -46,7 +46,7 @@ class DappIcon extends Component {
   componentWillMount () {
     // Only these 2 types of dapps need the dappsUrl
     if (['view', 'local'].includes(this.props.app.type)) {
-      this.dappsUrlStore = DappsUrlStore.get(this.context.api);
+      this.dappsUrlStore = stores.parity.dappsUrl().get(this.context.api);
     }
   }
 
@@ -65,7 +65,7 @@ class DappIcon extends Component {
       case 'view': {
         if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
 
-        const dappHost = (process.env.DAPPS_URL || `${this.dappsUrlStore.dappsUrl}/ui`).trimRight('/');
+        const dappHost = (process.env.DAPPS_URL || `${this.dappsUrlStore.fullUrl}/ui`).trimRight('/');
         const fallbackSrc =
           window.location.protocol === 'file:' ? `dapps/${app.id}/icon.png` : `${dappHost}/dapps/${app.id}/icon.png`;
 
@@ -75,7 +75,7 @@ class DappIcon extends Component {
       case 'local': {
         if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
 
-        imageSrc = `${this.dappsUrlStore.dappsUrl}/${app.id}/${app.iconUrl}`;
+        imageSrc = `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
         break;
       }
       case 'builtin':

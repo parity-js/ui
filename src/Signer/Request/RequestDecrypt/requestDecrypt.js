@@ -14,37 +14,39 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
+import { observer } from 'mobx-react';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 
-import ConfirmReject from './ConfirmReject';
-import ConfirmRejectToggle from './ConfirmRejectToggle';
-import { requestShape } from '../util/react';
+import styles from '../RequestSign/requestSign.css';
 
-export default class ConfirmForm extends Component {
+@observer
+export default class RequestDecrypt extends Component {
+  static contextTypes = {
+    api: PropTypes.object
+  };
+
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    className: PropTypes.string,
-    request: requestShape.isRequired
+    dataToSign: PropTypes.string.isRequired
   };
-
-  state = {
-    isRejectOpen: false
-  };
-
-  handleToggle = () =>
-    this.setState({
-      isRejectOpen: !this.state.isRejectOpen
-    });
 
   render () {
-    const { children, className, request } = this.props;
-    const { isRejectOpen } = this.state;
+    const { api } = this.context;
+    const { dataToSign } = this.props;
 
     return (
-      <div className={className}>
-        {isRejectOpen ? <ConfirmReject request={request} /> : children}
-        <ConfirmRejectToggle isRejectOpen={isRejectOpen} onToggle={this.handleToggle} />
+      <div className={styles.info} title={api.util.sha3(dataToSign)}>
+        <p>
+          <FormattedMessage
+            id='signer.decryptRequest.request'
+            defaultMessage='A request to decrypt data using your account:'
+          />
+        </p>
+
+        <div className={styles.signData}>
+          <p>{dataToSign}</p>
+        </div>
       </div>
     );
   }

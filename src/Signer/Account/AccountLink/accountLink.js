@@ -16,62 +16,31 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { observer } from 'mobx-react';
+import stores from '@parity/mobx';
 
 import styles from './accountLink.css';
 
+@observer
 export default class AccountLink extends Component {
+  static contextTypes = {
+    api: PropTypes.object.isRequired
+  };
+
   static propTypes = {
-    accounts: PropTypes.object.isRequired,
     address: PropTypes.string.isRequired,
     className: PropTypes.string,
     children: PropTypes.node,
-    externalLink: PropTypes.string.isRequired
-  }
-
-  state = {
-    link: null
+    externalLink: PropTypes.string
   };
 
-  componentWillMount () {
-    const { accounts, address, externalLink } = this.props;
+  allAccountsInfoStore = stores.parity.allAccountsInfo().get(this.context.api);
 
-    this.updateLink(accounts, address, externalLink);
-  }
+  getLink (address, externalLink) {
+    const accounts = this.allAccountsInfo.allAccountsInfo;
+    const isAccount = !!accounts[address];
 
-  componentWillReceiveProps (nextProps) {
-    const { accounts, address, externalLink } = nextProps;
-
-    this.updateLink(accounts, address, externalLink);
-  }
-
-  render () {
-    const { children, address, className, externalLink } = this.props;
-
-    if (externalLink) {
-      return (
-        <a
-          href={this.state.link}
-          target='_blank'
-          className={`${styles.container} ${className}`}
-        >
-          { children || address }
-        </a>
-      );
-    }
-
-    return (
-      <div className={`${styles.container} ${className}`}>
-        { children || address }
-      </div>
-    );
-  }
-
-  updateLink (accounts, address, externalLink) {
-    const isAccount = !!(accounts[address]);
-
-    let link = isAccount
-      ? `/accounts/${address}`
-      : `/addresses/${address}`;
+    let link = isAccount ? `/accounts/${address}` : `/addresses/${address}`;
 
     if (externalLink) {
       const path = externalLink.replace(/\/+$/, '');
@@ -79,8 +48,20 @@ export default class AccountLink extends Component {
       link = `${path}/#${link}`;
     }
 
-    this.setState({
-      link
-    });
+    return link;
+  }
+
+  render () {
+    const { children, address, className, externalLink } = this.props;
+
+    if (externalLink) {
+      return (
+        <a href={this.getLink()} target='_blank' className={`${styles.container} ${className}`}>
+          {children || address}
+        </a>
+      );
+    }
+
+    return <div className={`${styles.container} ${className}`}>{children || address}</div>;
   }
 }

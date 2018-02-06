@@ -18,18 +18,24 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 
-import Button from '../../Button';
-
+import Button from '../../../Button';
+import { requestShape } from '../../util/react';
 import styles from './confirmReject.css';
 
 export default class ConfirmReject extends Component {
-  static propTypes = {
-    onReject: PropTypes.func.isRequired,
-    className: PropTypes.string
+  static contextTypes = {
+    api: PropTypes.object.isRequired
   };
 
+  static propTypes = {
+    className: PropTypes.string,
+    request: requestShape.isRequired
+  };
+
+  handleReject = () => this.context.api.signer.rejectRequest(this.props.request.id);
+
   render () {
-    const { className, onReject } = this.props;
+    const { className } = this.props;
 
     return (
       <div className={className}>
@@ -40,22 +46,14 @@ export default class ConfirmReject extends Component {
           />
           <br />
           <strong>
-            <FormattedMessage
-              id='signer.txPendingReject.undone'
-              defaultMessage='This cannot be undone'
-            />
+            <FormattedMessage id='signer.txPendingReject.undone' defaultMessage='This cannot be undone' />
           </strong>
         </div>
         <Button
-          onClick={onReject}
+          onClick={this.handleReject}
           className={styles.rejectButton}
           fullWidth
-          label={
-            <FormattedMessage
-              id='signer.txPendingReject.buttons.reject'
-              defaultMessage='Reject Request'
-            />
-          }
+          label={<FormattedMessage id='signer.txPendingReject.buttons.reject' defaultMessage='Reject Request' />}
         />
       </div>
     );

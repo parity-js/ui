@@ -18,7 +18,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import IdentityName from '../../../IdentityName';
-
 import AccountLink from '../AccountLink';
 
 import styles from './name.css';
@@ -31,43 +30,29 @@ function shortAddress (address) {
   return `[${address.slice(2, 8)}..${address.slice(address.length - 7)}]`;
 }
 
-export default function Name ({ accounts, address, className, externalLink, netVersion }) {
+export default function Name ({ address, className, externalLink }) {
   const name = <IdentityName address={address} empty />;
 
   if (!name) {
     return (
-      <AccountLink
-        accounts={accounts}
-        address={address}
-        className={className}
-        externalLink={externalLink}
-        netVersion={netVersion}
-      >
-        { shortAddress(address) }
+      <AccountLink address={address} className={className} externalLink={externalLink}>
+        {shortAddress(address)}
       </AccountLink>
     );
   }
 
   return (
-    <AccountLink
-      accounts={accounts}
-      address={address}
-      className={className}
-      externalLink={externalLink}
-      netVersion={netVersion}
-    >
+    <AccountLink address={address} className={className} externalLink={externalLink}>
       <span>
-        <span className={styles.name}>{ name }</span>
-        <span className={styles.address}>{ tinyAddress(address) }</span>
+        <span className={styles.name}>{name}</span>
+        <span className={styles.address}>{tinyAddress(address)}</span>
       </span>
     </AccountLink>
   );
 }
 
 Name.propTypes = {
-  accounts: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
   className: PropTypes.string,
-  externalLink: PropTypes.string.isRequired,
-  netVersion: PropTypes.string.isRequired
+  externalLink: PropTypes.string
 };

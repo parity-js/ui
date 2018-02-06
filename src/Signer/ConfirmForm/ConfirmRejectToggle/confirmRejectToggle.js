@@ -18,37 +18,22 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 
-import { PrevIcon } from '../../Icons';
+import { PrevIcon } from '../../../Icons';
 
 import styles from './confirmRejectToggle.css';
 
 export default function ConfirmRejectToggle ({ className, isRejectOpen, onToggle }) {
   return (
-    <a
-      className={`${styles.rejectToggle} ${className}`}
-      onClick={onToggle}
-    >
-      {
-        isRejectOpen
-          ? (
-            <span>
-              <PrevIcon />
-              <FormattedMessage
-                id='signer.txPendingForm.changedMind'
-                defaultMessage="I've changed my mind"
-              />
-            </span>
-          )
-          : (
-            <span>
-              <FormattedMessage
-                id='signer.txPendingForm.reject'
-                defaultMessage='reject request'
-              />
-            </span>
-          )
-      }
-    </a>
+    <span className={`${styles.rejectToggle} ${className}`} onClick={onToggle}>
+      {isRejectOpen ? (
+        <span>
+          <PrevIcon />
+          <FormattedMessage id='signer.txPendingForm.changedMind' defaultMessage="I've changed my mind" />
+        </span>
+      ) : (
+        <FormattedMessage id='signer.txPendingForm.reject' defaultMessage='reject request' />
+      )}
+    </span>
   );
 }
 
