@@ -128,7 +128,6 @@ export default class Input extends Component {
           disabled={disabled}
           error={!!error}
           fluid
-          id={NAME_ID}
           max={max}
           min={min}
           name={NAME_ID}

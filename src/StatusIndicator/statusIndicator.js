@@ -75,4 +75,6 @@ class StatusIndicator extends Component {
   }
 }
 
+StatusIndicator.Store = stores.parity.nodeHealth();
+
 export default StatusIndicator;

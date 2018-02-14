@@ -26,8 +26,7 @@ import GasPriceEditor from '../../../GasPriceEditor';
 import MethodDecoding from '../../../MethodDecoding';
 import Layout from '../../Layout';
 import { transactionShape } from '../../util/react';
-
-const styles = {};
+import styles from './requestSend.css';
 
 @observer
 export default class RequestSend extends Component {
@@ -44,9 +43,9 @@ export default class RequestSend extends Component {
   gasStore = GasPriceEditor.Store.get(this.context.api, this.props.transaction);
 
   render () {
-    const { address } = this.props;
+    const { address, className } = this.props;
     return (
-      <div className={styles.method}>
+      <div className={[className, styles.method].join(' ')}>
         <MethodDecoding
           address={address}
           historic={false}
@@ -55,6 +54,7 @@ export default class RequestSend extends Component {
 
         <div className={styles.editButtonRow}>
           <Popup
+            className={styles.gasPriceEditor}
             content={this.renderTxEditor()}
             flowing
             on='click'
@@ -73,10 +73,8 @@ export default class RequestSend extends Component {
   }
 
   renderTxEditor () {
-    const { className } = this.props;
-
     return (
-      <Layout className={className}>
+      <Layout>
         <GasPriceEditor store={this.gasStore} />
       </Layout>
     );
