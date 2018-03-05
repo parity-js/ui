@@ -44,10 +44,7 @@ class DappIcon extends Component {
   };
 
   componentWillMount () {
-    // Only these 2 types of dapps need the dappsUrl
-    if (['view', 'local'].includes(this.props.app.type)) {
-      this.dappsUrlStore = stores.parity.dappsUrl().get(this.context.api);
-    }
+    this.dappsUrlStore = stores.parity.dappsUrl().get(this.context.api);
   }
 
   handleError = () => {
@@ -56,15 +53,13 @@ class DappIcon extends Component {
 
   render () {
     const { app, className, raised, size } = this.props;
-
     const classes = [styles.icon, raised && styles.raised, styles[size], className].join(' ');
-
     let imageSrc;
+
+    if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
 
     switch (app.type) {
       case 'view': {
-        if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
-
         const dappHost = (process.env.DAPPS_URL || `${this.dappsUrlStore.fullUrl}/ui`).trimRight('/');
         const fallbackSrc = `${dappHost}/dapps/${app.id}/icon.png`;
 
@@ -80,7 +75,7 @@ class DappIcon extends Component {
       case 'builtin':
       case 'network':
       default:
-        imageSrc = app.image; // TODO: should be `${UI_URL}${app.image}` where UI_URL=http://localhost:8180
+        imageSrc = `${this.dappsUrlStore.fullUrl}${app.image}`;
     }
 
     return (
