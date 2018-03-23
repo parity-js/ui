@@ -47,7 +47,7 @@ class Request extends Component {
     const { payload } = this.props.request;
     const transaction = payload.sendTransaction || payload.signTransaction;
     if (transaction) {
-      this.gasPriceStore = GasPriceStore.get(this.context.api, transaction);
+      this.gasPriceStore = new GasPriceStore(this.context.api, transaction);
     }
   }
 
@@ -126,7 +126,7 @@ class Request extends Component {
             <Origin origin={origin} />
           </div>
           <div className={styles.details}>
-            <RequestDescription address={address} {...requestData} />
+            <RequestDescription address={address} gasPriceStore={this.gasPriceStore} {...requestData} />
           </div>
         </Layout.Main>
         <Layout.Side>
