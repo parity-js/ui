@@ -26,8 +26,6 @@ const CONDITIONS = {
   TIME: 'timestamp'
 };
 
-let instance;
-
 export default class GasPriceEditor {
   @observable blockNumber = 0;
   @observable condition = {};
@@ -268,14 +266,6 @@ export default class GasPriceEditor {
 
     return result;
   };
-
-  static get (api, transaction) {
-    if (!instance) {
-      instance = new GasPriceEditor(api, transaction);
-    }
-
-    return instance;
-  }
 }
 
 export { CONDITIONS };

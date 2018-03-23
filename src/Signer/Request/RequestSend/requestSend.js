@@ -30,26 +30,21 @@ import styles from './requestSend.css';
 
 @observer
 export default class RequestSend extends Component {
-  static contextTypes = {
-    api: PropTypes.object.isRequired
-  };
-
   static propTypes = {
     address: PropTypes.string.isRequired,
     className: PropTypes.string,
+    gasPriceStore: PropTypes.object.isRequired,
     transaction: transactionShape.isRequired
   };
 
-  gasStore = GasPriceEditor.Store.get(this.context.api, this.props.transaction);
-
   render () {
-    const { address, className } = this.props;
+    const { address, className, gasPriceStore } = this.props;
     return (
       <div className={[className, styles.method].join(' ')}>
         <MethodDecoding
           address={address}
           historic={false}
-          transaction={this.gasStore.overrideTransaction(this.props.transaction)}
+          transaction={gasPriceStore.overrideTransaction(this.props.transaction)}
         />
 
         <div className={styles.editButtonRow}>
@@ -75,7 +70,7 @@ export default class RequestSend extends Component {
   renderTxEditor () {
     return (
       <Layout>
-        <GasPriceEditor store={this.gasStore} />
+        <GasPriceEditor store={this.props.gasPriceStore} />
       </Layout>
     );
   }
