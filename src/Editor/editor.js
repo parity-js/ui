@@ -16,6 +16,7 @@
 
 import 'brace';
 import 'brace/theme/solarized_dark';
+import 'brace/theme/tomorrow';
 import 'brace/mode/json';
 
 import React, { Component } from 'react';
@@ -31,10 +32,12 @@ export default class Editor extends Component {
     value: PropTypes.string,
     mode: PropTypes.string,
     maxLines: PropTypes.number,
+    minLines: PropTypes.number,
     annotations: PropTypes.array,
     onExecute: PropTypes.func,
     onChange: PropTypes.func,
-    readOnly: PropTypes.bool
+    readOnly: PropTypes.bool,
+    theme: PropTypes.oneOf(['solarized_dark', 'tomorrow'])
   };
 
   static defaultProps = {
@@ -52,7 +55,7 @@ export default class Editor extends Component {
   }
 
   render () {
-    const { className, annotations, value, readOnly, mode, maxLines } = this.props;
+    const { className, annotations, value, readOnly, mode, minLines, maxLines, theme } = this.props;
     const commands = [
       {
         name: 'execut',
@@ -61,6 +64,8 @@ export default class Editor extends Component {
       }
     ];
 
+    const min = minLines || null;
+
     const max = (maxLines !== undefined)
       ? maxLines
       : (readOnly ? value.split('\n').length + 1 : null);
@@ -68,7 +73,7 @@ export default class Editor extends Component {
     return (
       <AceEditor
         mode={mode}
-        theme='solarized_dark'
+        theme={theme || 'solarized_dark'}
         width='100%'
         ref='brace'
         style={{ flex: 1 }}
@@ -80,6 +85,7 @@ export default class Editor extends Component {
           fontFamily: 'monospace',
           fontSize: '0.9em'
         }}
+        minLines={min}
         maxLines={max}
         enableBasicAutocompletion={!readOnly}
         showPrintMargin={false}
