@@ -29,16 +29,16 @@ export default class SortStore {
     this.id = id;
   }
 
-  @action handleMenuOpen = () => {
-    this.menuOpen = true;
+  @action handleMenuToggle = (e) => {
+    this.menuOpen = !this.menuOpen;
   }
 
-  @action handleMenuChange = (open) => {
-    this.menuOpen = open;
+  @action handleMenuClose = () => {
+    this.menuOpen = false;
   }
 
   @action handleSortChange = (event, order) => {
-    this.handleMenuChange(false);
+    this.handleMenuClose();
     this.onChange(order);
     this.saveOrder(order);
   }
