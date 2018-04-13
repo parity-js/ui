@@ -26,6 +26,7 @@ export default function Item ({ buttons, className, description, icon, isActive,
       className={`${styles.item} ${isActive ? styles.active : styles.inactive} ${className}`}
       onClick={onClick}
       style={style}
+      as={onClick && 'a'}
     >
       {
         icon && (

@@ -92,7 +92,7 @@ export default class ActionbarSearch extends Component {
         </div>
 
         <Button
-          className={styles.searchButton}
+          className={styles.searchButton + ' icon'}
           icon={<SearchIcon />}
           label=''
           onClick={this.handleSearchClick}
