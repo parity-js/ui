@@ -47,7 +47,8 @@ export default class Editor extends Component {
     annotations: [],
     onExecute: noop,
     onChange: noop,
-    readOnly: false
+    readOnly: false,
+    theme: 'solarized_dark'
   };
 
   componentWillMount () {
@@ -73,7 +74,7 @@ export default class Editor extends Component {
     return (
       <AceEditor
         mode={mode}
-        theme={theme || 'solarized_dark'}
+        theme={theme}
         width='100%'
         ref='brace'
         style={{ flex: 1 }}
