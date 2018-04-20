@@ -14,14 +14,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import { action, observable } from 'mobx';
+import { action } from 'mobx';
 import store from 'store';
 
 const LS_STORE_KEY = '_parity::sortStore';
 
 export default class SortStore {
-  @observable menuOpen = false;
-
   constructor (props) {
     const { id, onChange } = props;
 
@@ -29,16 +27,7 @@ export default class SortStore {
     this.id = id;
   }
 
-  @action handleMenuToggle = (e) => {
-    this.menuOpen = !this.menuOpen;
-  }
-
-  @action handleMenuClose = () => {
-    this.menuOpen = false;
-  }
-
   @action handleSortChange = (event, order) => {
-    this.handleMenuClose();
     this.onChange(order);
     this.saveOrder(order);
   }

@@ -15,10 +15,8 @@
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { observer } from 'mobx-react';
 
 import Button from '../../Button';
 import { SortIcon } from '../../Icons';
@@ -27,7 +25,6 @@ import Popup from '../../Popup';
 
 import SortStore from './sortStore';
 
-@observer
 export default class ActionbarSort extends Component {
   static propTypes = {
     order: PropTypes.string,
@@ -42,26 +39,8 @@ export default class ActionbarSort extends Component {
 
   store = new SortStore(this.props);
 
-  constructor (props) {
-    super(props);
-    this.handleDocumentClick = this.handleDocumentClick.bind(this);
-  }
-
-  handleDocumentClick (event) {
-    if (this.store.menuOpen &&
-        !ReactDOM.findDOMNode(this.refs.list).contains(event.target) &&
-        !ReactDOM.findDOMNode(this.refs.button).contains(event.target)) {
-      this.store.handleMenuClose();
-    }
-  }
-
   componentDidMount () {
     this.store.restoreSavedOrder();
-    window.document.addEventListener('click', this.handleDocumentClick);
-  }
-
-  componentWillUnmount () {
-    window.document.removeEventListener('click', this.handleDocumentClick);
   }
 
   render () {
@@ -69,47 +48,42 @@ export default class ActionbarSort extends Component {
 
     return (
       <Popup
-        isOpen={this.store.menuOpen}
+        on='click'
         trigger={
-          <div ref='button'>
-            <Button
-              icon={<SortIcon />}
-              onClick={this.store.handleMenuToggle}
-            />
-          </div>
+          <Button
+            icon={<SortIcon />}
+          />
         }
       >
-        <div ref='list'>
-          <List
-            items={[
-              showDefault && this.renderMenuItem('', (
-                <FormattedMessage
-                  id='ui.actionbar.sort.typeDefault'
-                  defaultMessage='Default'
-                />
-              )),
-              this.renderMenuItem('tags', (
-                <FormattedMessage
-                  id='ui.actionbar.sort.typeTags'
-                  defaultMessage='Sort by tags'
-                />
-              )),
-              this.renderMenuItem('name', (
-                <FormattedMessage
-                  id='ui.actionbar.sort.typeName'
-                  defaultMessage='Sort by name'
-                />
-              )),
-              this.renderMenuItem('eth', (
-                <FormattedMessage
-                  id='ui.actionbar.sort.typeEth'
-                  defaultMessage='Sort by ETH'
-                />
-              ))
-            ].concat(this.renderSortByMetas())}
-            onClick={this.store.handleSortChange}
-          />
-        </div>
+        <List
+          items={[
+            showDefault && this.renderMenuItem('', (
+              <FormattedMessage
+                id='ui.actionbar.sort.typeDefault'
+                defaultMessage='Default'
+              />
+            )),
+            this.renderMenuItem('tags', (
+              <FormattedMessage
+                id='ui.actionbar.sort.typeTags'
+                defaultMessage='Sort by tags'
+              />
+            )),
+            this.renderMenuItem('name', (
+              <FormattedMessage
+                id='ui.actionbar.sort.typeName'
+                defaultMessage='Sort by name'
+              />
+            )),
+            this.renderMenuItem('eth', (
+              <FormattedMessage
+                id='ui.actionbar.sort.typeEth'
+                defaultMessage='Sort by ETH'
+              />
+            ))
+          ].concat(this.renderSortByMetas())}
+          onClick={this.store.handleSortChange}
+        />
       </Popup>
     );
   }
