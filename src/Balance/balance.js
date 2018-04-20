@@ -70,10 +70,7 @@ export class Balance extends Component {
         const balanceValue = balance[tokenId];
 
         const isEthToken = token.native;
-        // @TODO Once we've updated the BigNumber.js dependency in
-        // @parity/shared to 3.1.0+, we can use balanceValue.isBigNumber
-        // instead, see https://github.com/MikeMcl/bignumber.js/issues/111
-        const hasBalance = balanceValue.gt && balanceValue.gt(0);
+        const hasBalance = balanceValue.isBigNumber && balanceValue.gt(0);
 
         if (!hasBalance && !isEthToken) {
           return null;
