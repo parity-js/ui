@@ -67,7 +67,7 @@ export default class ActionbarImport extends Component {
           label={
             <FormattedMessage
               id='ui.actionbar.import.button.import'
-              defaultMessage='import'
+              defaultMessage='Import'
             />
           }
           onClick={this.onOpenModal}
@@ -186,7 +186,7 @@ export default class ActionbarImport extends Component {
     }
 
     return (
-      <FileSelect onSelect={this.onFileSelect} />
+      <FileSelect className={styles.fileSelect} onSelect={this.onFileSelect} />
     );
   }
 

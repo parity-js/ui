@@ -27,7 +27,7 @@ import styles from './dropdown.css';
 const NAME_ID = ' ';
 
 // FIXME: Currently does not display the selected icon alongside
-export default function Dropdown ({ className, disabled = false, error, fullWidth = true, hint, label, onBlur, onChange, onKeyDown, options, text, value }, context) {
+export default function Dropdown ({ className, disabled = false, error, fullWidth = true, hint, label, onBlur, onChange, onKeyDown, options, search, text, value }, context) {
   const _onChange = (event, { value }) => onChange(event, value);
 
   return (
@@ -45,7 +45,7 @@ export default function Dropdown ({ className, disabled = false, error, fullWidt
         options={options}
         placeholder={parseI18NString(context, hint)}
         scrolling
-        search
+        search={search || true}
         selection
         text={parseI18NString(context, text)}
         value={value}
@@ -69,6 +69,7 @@ Dropdown.propTypes = {
   onBlur: PropTypes.func,
   onKeyDown: PropTypes.func,
   options: PropTypes.any, // Array of Dropdown.Item props e.g. `{ text: '', value: '' }`
+  search: PropTypes.func, // Custom search function
   text: PropTypes.any,
   value: PropTypes.any // Current value. Creates a controlled component.
 };

@@ -43,7 +43,7 @@ export default class ActionbarExport extends Component {
         label={
           <FormattedMessage
             id='ui.actionbar.export.button.export'
-            defaultMessage='export'
+            defaultMessage='Export'
           />
         }
         onClick={this.handleExport}
@@ -53,9 +53,8 @@ export default class ActionbarExport extends Component {
 
   handleExport = () => {
     const { filename, content } = this.props;
-    const text = JSON.stringify(content, null, 4);
-    const blob = new Blob([ text ], { type: 'application/json' });
+    const blob = new Blob([ content ], { type: 'text/plain' });
 
-    FileSaver.saveAs(blob, `${filename}.json`);
+    FileSaver.saveAs(blob, filename);
   }
 }

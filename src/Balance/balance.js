@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity.  If not, see <http://www.gnu.org/licenses/>.
 
-import BigNumber from 'bignumber.js';
 import { pick } from 'lodash';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -71,7 +70,7 @@ export class Balance extends Component {
         const balanceValue = balance[tokenId];
 
         const isEthToken = token.native;
-        const hasBalance = (balanceValue instanceof BigNumber) && balanceValue.gt(0);
+        const hasBalance = balanceValue.isBigNumber && balanceValue.gt(0);
 
         if (!hasBalance && !isEthToken) {
           return null;

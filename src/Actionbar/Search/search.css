@@ -24,19 +24,26 @@
 
 .input {
   width: 500px !important;
+  overflow: visible !important;
+
+  & > div:last-child { position: absolute; top: 100%; }
 }
 
 .inputContainer {
-  transition: width 450ms ease-in-out 0ms, height 0ms ease-in-out 0ms;
+  transition: width 0ms ease-in-out 0ms, height 0ms ease-in-out 0ms;
   white-space: nowrap;
-  overflow: hidden;
   width: 500px;
   height: 100%;
   position: relative;
+  top: -1px;
+  vertical-align: middle;
+  overflow: visible !important;
+  margin-right: 0.25em;
 }
 
 .inputContainerShown {
   transition: width 450ms ease-in-out 0ms, height 0ms ease-in-out 400ms;
   width: 0;
-  height: 0;
+  margin-right: 0 !important;
+  overflow: hidden !important;
 }

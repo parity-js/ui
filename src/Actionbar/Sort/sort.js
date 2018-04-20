@@ -17,7 +17,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { observer } from 'mobx-react';
 
 import Button from '../../Button';
 import { SortIcon } from '../../Icons';
@@ -26,7 +25,6 @@ import Popup from '../../Popup';
 
 import SortStore from './sortStore';
 
-@observer
 export default class ActionbarSort extends Component {
   static propTypes = {
     order: PropTypes.string,
@@ -50,11 +48,10 @@ export default class ActionbarSort extends Component {
 
     return (
       <Popup
-        isOpen={this.store.menuOpen}
+        on='click'
         trigger={
           <Button
             icon={<SortIcon />}
-            onClick={this.store.handleMenuOpen}
           />
         }
       >
