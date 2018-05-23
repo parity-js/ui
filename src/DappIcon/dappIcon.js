@@ -64,9 +64,7 @@ class DappIcon extends Component {
         break;
       }
       case 'local': {
-        if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
-
-        imageSrc = `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
+        imageSrc = app.image || `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
         break;
       }
       case 'network':
