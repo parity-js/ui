@@ -59,20 +59,14 @@ class DappIcon extends Component {
     if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
 
     switch (app.type) {
-      case 'view': {
-        const dappHost = (process.env.DAPPS_URL || `${this.dappsUrlStore.fullUrl}/ui`).trimRight('/');
-        const fallbackSrc = `${dappHost}/dapps/${app.id}/icon.png`;
-
-        imageSrc = app.image ? `${dappHost}${app.image}` : fallbackSrc;
+      case 'builtin': {
+        imageSrc = app.image;
         break;
       }
       case 'local': {
-        if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
-
-        imageSrc = `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
+        imageSrc = app.image || `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
         break;
       }
-      case 'builtin':
       case 'network':
       default:
         imageSrc = `${this.dappsUrlStore.fullUrl}${app.image}`;
