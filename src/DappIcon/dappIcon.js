@@ -17,7 +17,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import stores from '@parity/mobx';
 
 import styles from './dappIcon.css';
 
@@ -43,10 +42,6 @@ class DappIcon extends Component {
     hasError: false // Do not show broken image when fetching image gives error
   };
 
-  componentWillMount () {
-    this.dappsUrlStore = stores.parity.dappsUrl().get(this.context.api);
-  }
-
   handleError = () => {
     this.setState({ hasError: true });
   };
@@ -54,30 +49,13 @@ class DappIcon extends Component {
   render () {
     const { app, className, raised, size } = this.props;
     const classes = [styles.icon, raised && styles.raised, styles[size], className].join(' ');
-    let imageSrc;
-
-    if (!this.dappsUrlStore.dappsUrl) return <div className={classes} />; // Blank frame
-
-    switch (app.type) {
-      case 'builtin': {
-        imageSrc = app.image;
-        break;
-      }
-      case 'local': {
-        imageSrc = app.image || `${this.dappsUrlStore.fullUrl}/${app.id}/${app.iconUrl}`;
-        break;
-      }
-      case 'network':
-      default:
-        imageSrc = `${this.dappsUrlStore.fullUrl}${app.image}`;
-    }
 
     return (
       <div className={classes}>
         <img
           className={[styles.image, this.state.hasError && styles.hidden].join(' ')}
           onError={this.handleError}
-          src={imageSrc}
+          src={app.image}
           alt=''
         />
       </div>
