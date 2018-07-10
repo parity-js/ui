@@ -18,9 +18,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 import { observer } from 'mobx-react';
-import stores from '@parity/mobx';
-import { STATUS_BAD, STATUS_OK, STATUS_WARN } from '@parity/mobx/lib/parity/nodeHealth';
 
+import StatusStore, { STATUS_BAD, STATUS_OK, STATUS_WARN } from './store';
 import styles from './statusIndicator.css';
 
 const statuses = [STATUS_BAD, STATUS_WARN, STATUS_OK];
@@ -40,12 +39,12 @@ class StatusIndicator extends Component {
     type: PropTypes.oneOf(['radial', 'signal'])
   };
 
-  nodeHealthStore = stores.parity.nodeHealth().get(this.context.api);
+  statusStore = new StatusStore(this.context.api);
 
   render () {
     const { className, id, status, title = [], tooltipPlacement, type = 'signal' } = this.props;
-    const checkStatus = status || this.nodeHealthStore.overall.status;
-    const message = title.length ? title : this.nodeHealthStore.overall.message;
+    const checkStatus = status || this.statusStore.overall.status;
+    const message = title.length ? title : this.statusStore.overall.message;
 
     return (
       <span className={[styles.status, className].join(' ')}>
@@ -75,6 +74,6 @@ class StatusIndicator extends Component {
   }
 }
 
-StatusIndicator.Store = stores.parity.nodeHealth();
+StatusIndicator.Store = StatusStore;
 
 export default StatusIndicator;
