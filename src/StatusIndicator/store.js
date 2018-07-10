@@ -22,11 +22,7 @@ export const STATUS_WARN = 'needsAttention';
 export const STATUS_OK = 'ok';
 
 export default class Store {
-  @observable netPeers = {};
-
   constructor (api) {
-    this._api = api;
-
     this.ethSyncingStore = stores.eth.syncing().get(api);
     this.parityNetPeersStore = stores.parity.netPeers().get(api);
   }
