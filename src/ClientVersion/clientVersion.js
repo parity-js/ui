@@ -22,7 +22,7 @@ import Store from './store';
 
 import styles from './clientVersion.css';
 
-function ClientVersion ({ className }, { api }) {
+function ClientVersion ({ className, uiName }, { api }) {
   const store = Store.get(api);
 
   if (!store.clientVersion) {
@@ -32,15 +32,18 @@ function ClientVersion ({ className }, { api }) {
   const [ clientName, , versionString, , ] = store.clientVersion.split('/');
   const [ versionNumber, versionType, , versionDate ] = (versionString || '').split('-');
 
+  const clientString = `${clientName} ${versionNumber}-${versionDate} ${versionType}`;
+
   return (
     <div className={[styles.clientVersion, className].join(' ')}>
-      { clientName } { versionNumber }-{ versionDate } { versionType }
+      { uiName ? `${uiName} (${clientString})` : clientString }
     </div>
   );
 }
 
 ClientVersion.propTypes = {
-  className: PropTypes.string
+  className: PropTypes.string,
+  uiName: PropTypes.string
 };
 
 ClientVersion.contextTypes = {
