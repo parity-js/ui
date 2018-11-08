@@ -3100,9 +3100,9 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
-"jsqr@https://github.com/cozmo/jsQR.git":
-  version "1.0.1"
-  resolved "https://github.com/cozmo/jsQR.git#1fb946a235abdc7709f04cd0e4aa316a3b6eae70"
+jsqr@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/jsqr/-/jsqr-1.1.1.tgz#a0d7f95e6c3b0bec913dfef2ca64a877f28ed05f"
 
 jsx-ast-utils@^2.0.1:
   version "2.0.1"
@@ -4105,13 +4105,13 @@ react-portal@4.0.0:
   dependencies:
     prop-types "^15.5.8"
 
-react-qr-reader@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.0.1.tgz#f7be785e8c880d7e68423fc129802994f70b6b58"
+react-qr-reader@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.1.1.tgz#25fdb9812d61f727ef20614342eb54394f8e0ab6"
   dependencies:
-    jsqr "https://github.com/cozmo/jsQR.git"
+    jsqr "^1.1.1"
     prop-types "^15.5.8"
-    webrtc-adapter "^5.0.6"
+    webrtc-adapter "^6.4.0"
 
 react-redux@4.4.6:
   version "4.4.6"
@@ -4637,11 +4637,11 @@ rlp@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.0.0.tgz#9db384ff4b89a8f61563d92395d8625b18f3afb0"
 
-rtcpeerconnection-shim@^1.1.13:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.5.tgz#bfbae97e265ad05377e6fed1cfcb7f5880ce6000"
+rtcpeerconnection-shim@^1.2.14:
+  version "1.2.14"
+  resolved "https://registry.yarnpkg.com/rtcpeerconnection-shim/-/rtcpeerconnection-shim-1.2.14.tgz#67903d6f7b7bf508d6d1e4791de3e3b49c3754c0"
   dependencies:
-    sdp "^2.2.0"
+    sdp "^2.6.0"
 
 run-async@^2.2.0:
   version "2.3.0"
@@ -4702,9 +4702,9 @@ scss-tokenizer@^0.2.3:
     js-base64 "^2.1.8"
     source-map "^0.4.2"
 
-sdp@^2.2.0, sdp@^2.3.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.5.0.tgz#b15a0b1dfd0a38f6a8c780e58f8c8fe73c29ffe5"
+sdp@^2.6.0, sdp@^2.9.0:
+  version "2.9.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-2.9.0.tgz#2eed2d9c0b26c81ff87593107895c68d6fb9a0a6"
 
 secp256k1@^3.0.1:
   version "3.4.0"
@@ -5379,12 +5379,12 @@ warning@^4.0.1:
   dependencies:
     loose-envify "^1.0.0"
 
-webrtc-adapter@^5.0.6:
-  version "5.0.6"
-  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-5.0.6.tgz#7946fca194dadf869bb6c8cae1011dfda03f40c7"
+webrtc-adapter@^6.4.0:
+  version "6.4.4"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-6.4.4.tgz#a1e54cc2765c57976d3d682a0de15110b91115d7"
   dependencies:
-    rtcpeerconnection-shim "^1.1.13"
-    sdp "^2.3.0"
+    rtcpeerconnection-shim "^1.2.14"
+    sdp "^2.9.0"
 
 websocket@^1.0.25:
   version "1.0.25"
