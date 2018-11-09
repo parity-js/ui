@@ -3465,8 +3465,8 @@ mobx@2.6.4:
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-2.6.4.tgz#e05a91a5b2c97dac3fdab34024e6b74a7f4311ab"
 
 moment@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
+  version "2.22.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 ms@2.0.0:
   version "2.0.0"
