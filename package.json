@@ -41,7 +41,7 @@
     "eslint": "^5.8.0",
     "eslint-config-semistandard": "^11.0.0",
     "eslint-config-standard": "^10.2.1",
-    "eslint-config-standard-react": "^5.0.0",
+    "eslint-config-standard-react": "^7.0.2",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.1",
