@@ -4141,9 +4141,9 @@ react-portal@4.1.5:
   dependencies:
     prop-types "^15.5.8"
 
-react-qr-reader@2.1.1:
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.1.1.tgz#25fdb9812d61f727ef20614342eb54394f8e0ab6"
+react-qr-reader@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/react-qr-reader/-/react-qr-reader-2.1.2.tgz#ff3d7d377d3ffbd9d78a0947ca04221c2f180e15"
   dependencies:
     jsqr "^1.1.1"
     prop-types "^15.5.8"
