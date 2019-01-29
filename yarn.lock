@@ -4122,9 +4122,9 @@ react-copy-to-clipboard@5.0.1:
     copy-to-clipboard "^3"
     prop-types "^15.5.8"
 
-react-datetime@2.16.2:
-  version "2.16.2"
-  resolved "https://registry.yarnpkg.com/react-datetime/-/react-datetime-2.16.2.tgz#d5d41fe3f6f3fa8fa1b068f2fae75cec25e1bb39"
+react-datetime@2.16.3:
+  version "2.16.3"
+  resolved "https://registry.yarnpkg.com/react-datetime/-/react-datetime-2.16.3.tgz#7f9ac7d4014a939c11c761d0c22d1fb506cb505e"
   dependencies:
     create-react-class "^15.5.2"
     object-assign "^3.0.0"
