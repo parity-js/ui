@@ -39,7 +39,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^5.8.0",
-    "eslint-config-semistandard": "^11.0.0",
+    "eslint-config-semistandard": "^13.0.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^7.0.2",
     "eslint-plugin-import": "^2.8.0",
