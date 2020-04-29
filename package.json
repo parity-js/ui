@@ -50,7 +50,7 @@
     "makeshift": "^1.1.0",
     "node-sass": "^4.7.2",
     "stylelint": "^8.2.0",
-    "stylelint-config-standard": "^17.0.0"
+    "stylelint-config-standard": "^18.2.0"
   },
   "dependencies": {
     "@parity/api": "^4.0.2",
