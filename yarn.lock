@@ -5283,8 +5283,8 @@ u2f-api@0.0.9:
   resolved "https://registry.yarnpkg.com/u2f-api/-/u2f-api-0.0.9.tgz#bded457ba5a9a9ee9b58b3de291f8c1f8feacb7a"
 
 ua-parser-js@^0.7.9:
-  version "0.7.17"
-  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.17.tgz#e9ec5f9498b9ec910e7ae3ac626a805c4d09ecac"
+  version "0.7.28"
+  resolved "https://registry.yarnpkg.com/ua-parser-js/-/ua-parser-js-0.7.28.tgz#8ba04e653f35ce210239c64661685bf9121dec31"
 
 uid-number@^0.0.6:
   version "0.0.6"
